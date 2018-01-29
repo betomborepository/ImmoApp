@@ -19,6 +19,10 @@
     <string name="label_name">Name :</string>
     <string name="label_ville">Ville :</string>
     <string name="label_contact">Contact :</string>
-    <string name="immo_empty_value">vide</string>
+    <string name="immo_adresse_label">adresse :</string>
+    <string name="immo_date_label">Date :</string>
+    <string name="immo_label_status">Staus :</string>
+    <string name="immo_empty_value">VIDE</string>
+
 
 </resources>
