@@ -25,6 +25,8 @@
     <string name="immo_empty_value">VIDE</string>
     <string name="immo_btn_ok">OK</string>
     <string name="immo_btn_cancel">Cancel</string>
+    <string name="immo_offline_mode">Offline Mode</string>
+    <string name="immo_langage">Langage</string>
 
 
 </resources>
