@@ -26,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    replaceMainFragment(new Home());
+                    replaceMainFragment(new Home());setTitle("Home");
                     return true;
                 case R.id.navigation_search:
-                    replaceMainFragment(new List());
+                    replaceMainFragment(new List());setTitle("Search");
                     return true;
                 case R.id.navigation_notifications:
-                    replaceMainFragment(new Home());
+                    replaceMainFragment(new Settings()); setTitle("Settings");
                     return true;
             }
             return false;
@@ -47,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         ft.replace(R.id.main_content, fragment);
         ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE);
         ft.commit();
+
+
     }
 
 
@@ -62,6 +64,9 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        replaceMainFragment(new Home());
+        setTitle("Home");
     }
 
     @Override

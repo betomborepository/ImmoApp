@@ -2,6 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
         android:id="@+id/toolbar_search"
         android:title="research"
@@ -9,6 +10,10 @@
         android:icon="@drawable/icon_search"
         app:showAsAction="always"
         />
+
+    <item
+        android:title="@string/immo_log_out"
+        app:showAsAction="collapseActionView" />
 
 
 

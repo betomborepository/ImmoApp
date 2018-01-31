@@ -45,7 +45,7 @@
                 android:id="@+id/immo_ville_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_ville"
+                android:text="@string/immo_adresse_label"
                 android:textAlignment="gravity"
                 android:gravity="center_horizontal"
                 app:layout_constraintTop_toBottomOf="@id/immo_name"
@@ -95,7 +95,8 @@
                 app:layout_constraintTop_toBottomOf="@id/immo_contact"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
+                android:isIndicator="true"
+                android:rating="4"
 
                 />
         </android.support.constraint.ConstraintLayout>

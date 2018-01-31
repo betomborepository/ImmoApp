@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="gravity"
             android:gravity="center"
-            android:text="@string/immo_empty_value"
+            android:text="@string/home_create_title"
             android:layout_weight="0.21" />
 
 
@@ -30,7 +30,7 @@
                 android:id="@+id/immo_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="hint" />
+                android:hint="@string/hint_name" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -42,7 +42,7 @@
                 android:id="@+id/immo_adresse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="hint" />
+                android:hint="@string/hint_adresse" />
         </android.support.design.widget.TextInputLayout>
  <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                 android:id="@+id/immo_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="hint" />
+                android:hint="@string/hint_date" />
         </android.support.design.widget.TextInputLayout>
  <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -62,7 +62,7 @@
                 android:id="@+id/immo_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="hint" />
+                android:hint="@string/hint_status" />
         </android.support.design.widget.TextInputLayout>
  <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -72,17 +72,9 @@
                 android:id="@+id/prix"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="hint" />
+                android:hint="@string/hint_price" />
         </android.support.design.widget.TextInputLayout>
- <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="hint" />
-        </android.support.design.widget.TextInputLayout>
         <RatingBar
             android:id="@+id/ratingBar2"
             android:layout_width="match_parent"
