@@ -23,6 +23,8 @@
     <string name="immo_date_label">Date :</string>
     <string name="immo_label_status">Staus :</string>
     <string name="immo_empty_value">VIDE</string>
+    <string name="immo_btn_ok">OK</string>
+    <string name="immo_btn_cancel">Cancel</string>
 
 
 </resources>
