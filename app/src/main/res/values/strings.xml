@@ -35,6 +35,13 @@
     <string name="home_create_title">Create your home</string>
     <string name="title_settings">Settings</string>
     <string name="immo_log_out">Log out</string>
+    <string name="immo_home_title">Log out</string>
 
+    <string-array name="langage_array">
+        <item>Malgache</item>
+        <item>French</item>
+        <item>English</item>
+
+    </string-array>
 
 </resources>

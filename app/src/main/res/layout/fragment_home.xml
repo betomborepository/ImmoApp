@@ -13,7 +13,6 @@
         android:layout_height="343dp"
         android:orientation="vertical">
 
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -114,6 +113,19 @@
                     android:layout_marginStart="10dp"
                     android:layout_toRightOf="@+id/immo_contact_label"
                     android:text="@string/immo_empty_value" />
+
+                <TextView
+                    android:id="@+id/immo_home_house_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/immo_adresse_label"
+                    android:layout_alignLeft="@+id/immo_adresse_label"
+                    android:layout_alignStart="@+id/immo_adresse_label"
+                    android:layout_marginBottom="38dp"
+                    android:textAlignment="center"
+                    android:text="@string/immo_empty_value"
+                    android:layout_alignRight="@+id/immo_adresse"
+                    android:layout_alignEnd="@+id/immo_adresse" />
 
             </RelativeLayout>
         </LinearLayout>
