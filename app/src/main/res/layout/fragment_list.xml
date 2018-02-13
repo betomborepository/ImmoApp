@@ -19,6 +19,8 @@
         >
 
 
+
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
@@ -28,16 +30,41 @@
             android:gravity="center_horizontal"
             android:text="Home Founded"
             android:textAlignment="gravity"
+            android:textSize="40dp"
 
             />
 
-        <android.support.v7.widget.RecyclerView
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textAlignment="gravity"
-            android:id="@+id/list_container"
-            />
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:textAlignment="gravity"
+                android:id="@+id/list_container"
+                />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:rippleColor="@color/colorPrimary"
+                android:layout_gravity="bottom|right"
+                android:clickable="true"
+                app:fabSize="mini"
+                app:srcCompat="@drawable/ic_plus"
+                app:layout_anchor="@id/list_container"
+                app:layout_anchorGravity="bottom|right|end"
+                android:layout_margin="10dp"
+
+
+                android:onClick="switchToUpload"
+                />
+
+        </android.support.design.widget.CoordinatorLayout>
+
+
     </LinearLayout>
 
 

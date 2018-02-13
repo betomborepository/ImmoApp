@@ -1,123 +1,144 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="or.appimmo.betombo.appimmo.Upload">
 
 
-    <LinearLayout
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="1">
-
-
-        <TextView
-            android:id="@+id/immo_udpdate_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="gravity"
-            android:gravity="center"
-            android:text="@string/home_create_title"
-            android:layout_weight="0.21" />
-
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/immo_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_name" />
-        </android.support.design.widget.TextInputLayout>
-
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/immo_adresse"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_adresse" />
-        </android.support.design.widget.TextInputLayout>
- <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/immo_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_date" />
-        </android.support.design.widget.TextInputLayout>
- <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/immo_status"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_status" />
-        </android.support.design.widget.TextInputLayout>
- <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/prix"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/hint_price" />
-        </android.support.design.widget.TextInputLayout>
-
-        <RatingBar
-            android:id="@+id/ratingBar2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:numStars="5"
-            />
-
-        <EditText
-            android:id="@+id/editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="textMultiLine"
-            android:layout_weight="0.66" />
-
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.24"
-            android:orientation="horizontal"
-            android:gravity="right"
-            >
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="1">
 
-            <Button
-                android:id="@+id/button_ok"
-                android:layout_width="wrap_content"
+
+            <TextView
+                android:id="@+id/immo_udpdate_text"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/immo_btn_ok"
+                android:layout_weight="0.21"
+                android:gravity="center"
+                android:text="@string/home_create_title"
+                android:textAlignment="gravity" />
+            <ImageView
+                android:id="@+id/upload_image"
+                android:layout_width="match_parent"
+                android:layout_height="249dp"
+                app:srcCompat="@drawable/common_plus_signin_btn_icon_light_disabled"
+                android:onClick="chooseImage" />
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/immo_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_name" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <EditText
+                        android:id="@+id/immo_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/hint_date"
+                        android:inputType="date" />
+                </android.support.design.widget.TextInputLayout>
+
+                <EditText
+                    android:id="@+id/immo_adresse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_adresse" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/immo_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_status" />
+            </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/immo_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/hint_price"
+                    android:inputType="number"
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="43dp"
+                android:numStars="5"
                 />
 
-            <Button
-                android:id="@+id/button_cancel"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/immo_description"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/immo_btn_cancel"
-                />
+                android:layout_weight="0.28"
+                android:ems="10"
+                android:inputType="textMultiLine" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.24"
+                android:orientation="horizontal"
+                android:gravity="right"
+                >
+
+                <Button
+                    android:id="@+id/button_ok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/immo_btn_ok"
+                    android:onClick="createHouse"
+
+                    />
+
+                <Button
+                    android:id="@+id/button_cancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/immo_btn_cancel"
+                    />
+
+
+            </LinearLayout>
+
 
 
         </LinearLayout>
 
+    </ScrollView>
 
 
-    </LinearLayout>
 </FrameLayout>

@@ -1,12 +1,25 @@
 package or.appimmo.betombo.appimmo;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 /**
@@ -22,7 +35,7 @@ public class Detail extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private FirebaseDatabase mDatabase;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -32,6 +45,8 @@ public class Detail extends Fragment {
     public Detail() {
         // Required empty public constructor
     }
+
+
 
     /**
      * Use this factory method to create a new instance of
@@ -63,6 +78,7 @@ public class Detail extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mDatabase = FirebaseDatabase.getInstance();
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_detail, container, false);
     }
@@ -80,8 +96,8 @@ public class Detail extends Fragment {
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+           /* throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");*/
         }
     }
 
@@ -89,6 +105,57 @@ public class Detail extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void InitializeViewContent(String id)
+    {
+        mDatabase = FirebaseDatabase.getInstance();
+        mDatabase.getReference().child("house").child(id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ImmoObject imo =dataSnapshot.getValue(ImmoObject.class);
+
+
+                TextView txv = getView().findViewById(R.id.immo_name);
+                txv.setText(imo.getName());
+
+                TextView adress = getView().findViewById(R.id.immo_adresse);
+                adress.setText(imo.getAdresse());
+
+                TextView date = getView().findViewById(R.id.immo_date);
+                date.setText(imo.getDate());
+
+                TextView status = getView().findViewById(R.id.immo_status);
+                status.setText("OK");
+
+                TextView contact = getView().findViewById(R.id.immo_contact);
+                contact.setText(imo.getContact());
+
+                TextView price = getView().findViewById(R.id.immo_price);
+                price.setText("1000");
+
+
+                ImageView imageNode = getView().findViewById(R.id.immo_image);
+
+                TextView body = getView().findViewById(R.id.immo_price);
+                body.setText(imo.getDescription());
+
+
+                RatingBar ratingBar = getView().findViewById(R.id.ratingBar);
+                ratingBar.setRating(imo.getRating());
+
+                StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/" + imo.getImage());
+                Glide.with(getView().getContext()).using(new FirebaseImageLoader()).load(ref).into(imageNode);
+
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     /**

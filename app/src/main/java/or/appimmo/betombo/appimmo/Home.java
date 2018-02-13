@@ -7,6 +7,19 @@ import android.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.util.zip.Inflater;
 
 
 /**
@@ -61,10 +74,93 @@ public class Home extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
+
+        final View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        FirebaseDatabase.getInstance().getReference().child("house").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(!isVisible()) return;
+
+
+
+                int c = 0;
+                for(DataSnapshot house : dataSnapshot.getChildren())
+                {
+
+
+
+                    LinearLayout parentLayout = ((LinearLayout)container.findViewById(R.id.imo_list_image));
+                    if (c < 3)
+                    {
+
+
+                        final ImmoObject immo = house.getValue(ImmoObject.class);
+
+
+                        if( c == 0)
+                        {
+                            updateMainPane(immo);
+                        }
+
+                        View image = inflater.inflate(R.layout.image_template, parentLayout, false);
+                        ImageView imageNode = image.findViewById(R.id.immo_image);
+
+
+                        final StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/" + immo.getImage());
+                        Glide.with(view.getContext()).using(new FirebaseImageLoader()).load(ref).into(imageNode);
+
+
+                        image.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+
+
+                                updateMainPane(immo);
+
+                            }
+                        });
+
+
+
+                        parentLayout.addView(image);
+                    }
+
+                    c++;
+                }
+            }
+
+            private void updateMainPane(ImmoObject immo)
+            {
+                StorageReference ref = FirebaseStorage.getInstance().getReference().child("images/" + immo.getImage());
+
+                ImageView image = view.findViewById(R.id.immo_main_image);
+                Glide.with(view.getContext()).using(new FirebaseImageLoader()).load(ref).into(image);
+
+                TextView name = view.findViewById(R.id.immo_home_house_name);
+                name.setText(immo.getName());
+
+                TextView adress = view.findViewById(R.id.immo_adresse);
+                adress.setText(immo.getAdresse());
+                TextView date = view.findViewById(R.id.immo_date);
+                date.setText(immo.getDate());
+                TextView status = view.findViewById(R.id.immo_status);
+                status.setText(immo.getStatus()? getString(R.string.immo_status_ok) : getString(R.string.immo_status_ko));
+                TextView contact = view.findViewById(R.id.immo_contact);
+                contact.setText(immo.getName());
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

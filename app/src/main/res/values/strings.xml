@@ -35,11 +35,13 @@
     <string name="home_create_title">Create your home</string>
     <string name="title_settings">Settings</string>
     <string name="immo_log_out">Log out</string>
-    <string name="immo_home_title">Log out</string>
+    <string name="immo_home_title">Our Best House</string>
     <string name="enter_password_error">The password is empty</string>
     <string name="enter_email_error">The email is empty</string>
     <string name="error_registration">There is error with your registration</string>
     <string name="error_login">The email or the password is wrong</string>
+    <string name="immo_status_ko">Not Valid</string>
+    <string name="immo_status_ok">Valid</string>
 
     <string-array name="langage_array">
         <item>Malgache</item>

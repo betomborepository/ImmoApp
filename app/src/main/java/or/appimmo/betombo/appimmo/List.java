@@ -10,6 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.common.server.response.FastJsonResponse;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 
 
@@ -27,6 +33,7 @@ public class List extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
+    private FirebaseDatabase mDatabase;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -69,28 +76,37 @@ public class List extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list, container, false);
-        RecyclerView rclv = view.findViewById(R.id.list_container);
+
+
+        final java.util.List<ImmoObject> immoData = new ArrayList<ImmoObject>();
+        final RecyclerView rclv = view.findViewById(R.id.list_container);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(this.getActivity());
         rclv.setLayoutManager(mLayoutManager);
 
-        java.util.List<ImmoObject> immoData = new ArrayList<ImmoObject>();
-        ImmoObject imob = new ImmoObject();
-        imob.setContact("025598653");
-        imob.setVille("Tokyo");
-        imob.setName("Villa Rouisoir");
-        immoData.add(imob);
+        mDatabase = FirebaseDatabase.getInstance();
 
-        imob = new ImmoObject();
+        mDatabase.getReference().child("house").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                immoData.removeAll(immoData);
+                for(DataSnapshot house : dataSnapshot.getChildren())
+                {
+                    ImmoObject immo = house.getValue(ImmoObject.class);
+                    immoData.add(immo);
+
+                }
+                ImmoAdapter adapter = new ImmoAdapter(immoData);
+                rclv.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
-        imob.setContact("186532");
-        imob.setVille("kyoto");
-        imob.setName("Villa Pradon");
-
-
-        immoData.add(imob);
-        ImmoAdapter adapter = new ImmoAdapter(immoData);
-        rclv.setAdapter(adapter);
+        //rclv.setAdapter(adapter);
         return view;
     }
 
