@@ -1,6 +1,5 @@
 package or.appimmo.betombo.appimmo;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,10 +12,6 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-
-import org.w3c.dom.Text;
-
-import java.util.*;
 
 /**
  * Created by hp on 28/01/2018.
@@ -68,6 +63,9 @@ public class ImmoAdapter extends RecyclerView.Adapter<ImmoAdapter.ImmoViewHolder
 
             v = (TextView) itemView.findViewById(R.id.immo_contact);
             v.setText(object.getContact());
+
+            v = (TextView) itemView.findViewById(R.id.immo_adresse_label);
+            v.setText(object.getAdresse());
 
 
             RatingBar ratingBar = itemView.findViewById(R.id.immo_rating);

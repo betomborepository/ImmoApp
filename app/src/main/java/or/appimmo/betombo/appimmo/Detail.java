@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -119,7 +118,7 @@ public class Detail extends Fragment {
                 TextView txv = getView().findViewById(R.id.immo_name);
                 txv.setText(imo.getName());
 
-                TextView adress = getView().findViewById(R.id.immo_adresse);
+                TextView adress = getView().findViewById(R.id.immo_adresse_label);
                 adress.setText(imo.getAdresse());
 
                 TextView date = getView().findViewById(R.id.immo_date);

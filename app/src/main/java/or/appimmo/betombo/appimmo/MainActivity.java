@@ -11,15 +11,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,13 +26,8 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApiNotAvailableException;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -48,12 +40,8 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import org.w3c.dom.Text;
-
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
@@ -101,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         mTextMessage = (TextView) findViewById(R.id.message);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -108,10 +97,27 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        String ID = getIntent().getStringExtra("id");
+        boolean isUpload = getIntent().getStringExtra("upload") != null;
+        boolean isUploaded = getIntent().getStringExtra("uploaded") != null;
+        if(ID != null)
+        {
+            initDetailsFragment(ID);
+        }else if(isUpload)
+        {
+            replaceMainFragment(new Upload());
+            setTitle("Upload");
+        }
+        else if(isUploaded)
+        {
+            replaceMainFragment(new List());
+            setTitle("List");
+        }
+        else{
 
-        replaceMainFragment(new Home());
-        setTitle("Home");
-
+            replaceMainFragment(new Home());
+            setTitle("Home");
+        }
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mFirebauseAuth = FirebaseAuth.getInstance();
         mFirebaseStorage = FirebaseStorage.getInstance();
@@ -148,14 +154,17 @@ public class MainActivity extends AppCompatActivity {
 
     public  void switchToUpload(View view)
     {
-        replaceMainFragment(new Upload());
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("upload", "upload");
+
+        startActivity(intent);
     }
 
 
     public  void createHouse(View view)
     {
         TextView txt = findViewById(R.id.immo_name);
-        TextView adress = findViewById(R.id.immo_adresse);
+        TextView adress = findViewById(R.id.immo_adresse_label);
         TextView date = findViewById(R.id.immo_date);
         TextView status = findViewById(R.id.immo_status);
         TextView price = findViewById(R.id.immo_price);
@@ -253,7 +262,13 @@ public class MainActivity extends AppCompatActivity {
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             progressDialog.dismiss();
                             Toast.makeText(MainActivity.this, "Uploaded", Toast.LENGTH_SHORT).show();
-                            replaceMainFragment(new List());
+
+
+
+                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                            intent.putExtra("uploaded", "uploaded");
+                            startActivity(intent);
+
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -276,13 +291,22 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-     public void showDetails(View view)
+     public void showDetailsActivity(View view)
     {
         TextView v = view.findViewById(R.id.immo_id_receiver);
         String id = v.getText().toString();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("id", id);
+        startActivity( intent);
+    }
+
+    public void initDetailsFragment(String id)
+    {
         Detail detail = new Detail();
         detail.InitializeViewContent(id);
         replaceMainFragment(detail);
+        setTitle("Details");
     }
 
 }

@@ -19,8 +19,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.zip.Inflater;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -144,7 +142,7 @@ public class Home extends Fragment {
                 TextView name = view.findViewById(R.id.immo_home_house_name);
                 name.setText(immo.getName());
 
-                TextView adress = view.findViewById(R.id.immo_adresse);
+                TextView adress = view.findViewById(R.id.immo_adresse_label);
                 adress.setText(immo.getAdresse());
                 TextView date = view.findViewById(R.id.immo_date);
                 date.setText(immo.getDate());

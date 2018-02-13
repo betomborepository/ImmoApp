@@ -58,7 +58,7 @@
                 android:text="@string/immo_adresse_label" />
 
             <TextView
-                android:id="@+id/immo_adresse"
+                android:id="@+id/immo_adresse_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/textView3"
@@ -80,9 +80,9 @@
                 android:id="@+id/immo_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/immo_adresse"
-                android:layout_alignStart="@+id/immo_adresse"
-                android:layout_below="@+id/immo_adresse"
+                android:layout_alignLeft="@+id/immo_adresse_label"
+                android:layout_alignStart="@+id/immo_adresse_label"
+                android:layout_below="@+id/immo_adresse_label"
                 android:text="@string/immo_empty_value" />
 
             <TextView
@@ -110,8 +110,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginLeft="25dp"
                 android:layout_marginRight="5dp"
-                android:layout_toEndOf="@+id/immo_adresse"
-                android:layout_toRightOf="@+id/immo_adresse"
+                android:layout_toEndOf="@+id/immo_adresse_label"
+                android:layout_toRightOf="@+id/immo_adresse_label"
                 android:gravity="center_horizontal|center"
                 android:text="@string/immo_empty_value"
                 android:textAlignment="gravity"
