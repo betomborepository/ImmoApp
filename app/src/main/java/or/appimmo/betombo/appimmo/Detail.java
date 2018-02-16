@@ -29,7 +29,7 @@ import com.google.firebase.storage.StorageReference;
  * Use the {@link Detail#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Detail extends Fragment {
+public class    Detail extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";

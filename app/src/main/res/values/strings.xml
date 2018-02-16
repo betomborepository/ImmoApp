@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">App immo</string>
     <string name="login_label_fb_google">Sign with your google account or facebook</string>
-    <string name="fb">Facebook</string>
-    <string name="google">Google</string>
-    <string name="login_email">email</string>
+    <string name="fb" translatable="false">Facebook</string>
+    <string name="google" translatable="false">Google</string>
+    <string name="login_email" translatable="false">email</string>
     <string name="login_password">passwond</string>
     <string name="btn_login">Login</string>
     <string name="btn_register">Register</string>
@@ -22,7 +22,7 @@
     <string name="immo_adresse_label">adresse :</string>
     <string name="immo_date_label">Date :</string>
     <string name="immo_label_status">Status :</string>
-    <string name="immo_empty_value">VIDE</string>
+    <string name="immo_empty_value">Empty</string>
     <string name="immo_btn_ok">OK</string>
     <string name="immo_btn_cancel">Cancel</string>
     <string name="immo_offline_mode">Offline Mode</string>
@@ -44,9 +44,16 @@
     <string name="immo_status_ok">Valid</string>
 
     <string-array name="langage_array">
-        <item>Malgache</item>
+        <item >Malgache</item>
         <item>French</item>
         <item>English</item>
+
+    </string-array>
+
+    <string-array name="langage_array_value">
+        <item >mg</item>
+        <item>fr</item>
+        <item>en</item>
 
     </string-array>
 

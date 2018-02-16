@@ -2,10 +2,14 @@ package or.appimmo.betombo.appimmo;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -13,16 +17,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,6 +50,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
@@ -100,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
         String ID = getIntent().getStringExtra("id");
         boolean isUpload = getIntent().getStringExtra("upload") != null;
         boolean isUploaded = getIntent().getStringExtra("uploaded") != null;
+        boolean isSetting = getIntent().getStringExtra("settings") != null;
+        boolean isNotification = getIntent().getStringExtra("notificationImmObject") != null;
         if(ID != null)
         {
             initDetailsFragment(ID);
@@ -113,20 +125,93 @@ public class MainActivity extends AppCompatActivity {
             replaceMainFragment(new List());
             setTitle("List");
         }
+        else if(isSetting)
+        {
+            replaceMainFragment(new List());
+            setTitle("List");
+        }
+        else if(isNotification)
+        {
+            Detail detailFrag = new Detail();
+            String idImmoObject =  getIntent().getStringExtra("notificationImmObject");
+            detailFrag.InitializeViewContent(idImmoObject);
+
+
+            replaceMainFragment(detailFrag);
+            setTitle("Detail");
+        }
         else{
 
             replaceMainFragment(new Home());
             setTitle("Home");
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         }
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mFirebauseAuth = FirebaseAuth.getInstance();
         mFirebaseStorage = FirebaseStorage.getInstance();
+
+        mDatabase.child("house").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                for(DataSnapshot child : dataSnapshot.getChildren())
+                {
+                    ImmoObject immo = child.getValue(ImmoObject.class);
+
+                    if(immo != null)
+                        notifyChangeOnHouse(immo);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     @Override
     public View onCreateView(String name, Context context, AttributeSet attrs) {
         return super.onCreateView(name, context, attrs);
     }
+
+
+
+    private void notifyChangeOnHouse(ImmoObject immo)
+    {
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this)
+                        .setSmallIcon(R.drawable.immo_house)
+                        .setContentTitle("Update on house" + immo.getName())
+                        .setContentText("Adresse:" + immo.getAdresse() + ", Status:" + immo.getStatus() );
+
+
+        Intent resultIntent = new Intent(this, MainActivity.class);
+        resultIntent.putExtra("notificationImmObject", immo.getID());
+
+        // Because clicking the notification opens a new ("special") activity, there's
+        // no need to create an artificial back stack.
+        PendingIntent resultPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        mBuilder.setContentIntent(resultPendingIntent);
+
+        // Sets an ID for the notification
+                int mNotificationId = 001;
+        // Gets an instance of the NotificationManager service
+                NotificationManager mNotifyMgr =
+                        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        // Builds the notification and issues it.
+        mNotifyMgr.notify(mNotificationId, mBuilder.build());
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -138,6 +223,40 @@ public class MainActivity extends AppCompatActivity {
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+
+                mDatabase.child("house").orderByChild("name").startAt(s).endAt(s + "\uf8ff").addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+
+                        RecyclerView rclv = findViewById(R.id.list_container);
+                        ArrayList<ImmoObject> immoData = new ArrayList<>();
+                        if(rclv != null)
+                        {
+                            for(DataSnapshot house : dataSnapshot.getChildren())
+                            {
+                                ImmoObject immo = house.getValue(ImmoObject.class);
+                                immoData.add(immo);
+
+                            }
+                            ImmoAdapter adapter = new ImmoAdapter(immoData);
+                            rclv.setAdapter(adapter);
+                        }
+                        else
+                        {
+                            //todo ch
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+
                 return false;
             }
 
@@ -187,7 +306,6 @@ public class MainActivity extends AppCompatActivity {
         String key = mDatabase.child("child").push().getKey();
         ImmoObject immo = new ImmoObject(key,rating.getNumStars(), "immo_images_" + UUID.randomUUID().toString(), txt.getText().toString(), adress.getText().toString(), contact, false, email, date.getText().toString(), description.getText().toString());
         mDatabase.child("house").child(key).setValue(immo);
-
 
         uploadImage(immo.getImage());
 
@@ -307,6 +425,31 @@ public class MainActivity extends AppCompatActivity {
         detail.InitializeViewContent(id);
         replaceMainFragment(detail);
         setTitle("Details");
+    }
+
+    public void updateConfig (View v)
+    {
+        Spinner spinner = findViewById(R.id.spinner);
+
+        String lang = getResources().getStringArray(R.array.langage_array_value)[spinner.getSelectedItemPosition()];
+
+
+        setLocale(lang);
+
+        Intent intent = new Intent(v.getContext(), MainActivity.class);
+        intent.putExtra("settings", "settings");
+        startActivity(intent);
+    }
+
+    public void setLocale(String lang) {
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+
+
     }
 
 }
